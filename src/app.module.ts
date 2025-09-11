@@ -16,13 +16,16 @@ dotenv.config();
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST || 'mysql.railway.internal',
-      port: 3306,
-      username: process.env.DB_USERNAME || 'root',
-      password: process.env.DB_PASSWORD || 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
-      database: process.env.DB_DATABASE || 'railway',
+      host: 'gondola.proxy.rlwy.net',
+      port: 33485,
+      username:  'root',
+      password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
+      database:  'railway',
       entities: [User, Company],
-      synchronize: false, // Solo en dev
+      synchronize: true, // Solo en dev,
+      logging: true, // Habilita el registro de consultas y errores,
+      
+      
     }),
     TypeOrmModule.forFeature([User, Company]),
     UsersModule,
