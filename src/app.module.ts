@@ -15,12 +15,12 @@ dotenv.config();
   imports: [
 
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
+      type: 'mysql',
+      host: process.env.DB_HOST || 'mysql.railway.internal',
       port: 3306,
       username: process.env.DB_USERNAME || 'root',
-      password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_DATABASE || 'DB',
+      password: process.env.DB_PASSWORD || 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
+      database: process.env.DB_DATABASE || 'railway',
       entities: [User, Company],
       synchronize: false, // Solo en dev
     }),
