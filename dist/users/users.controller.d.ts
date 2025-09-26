@@ -9,6 +9,7 @@ export declare class UsersController {
         password: string;
         email: string;
         companyId: number;
+        accessToken: string;
     }): Promise<{
         msg: string;
         message?: undefined;
@@ -22,6 +23,7 @@ export declare class UsersController {
         username: string;
         company: import("../company.entity").Company;
         email: string;
+        accessToken: string;
     } | {
         msg: string;
     }>;

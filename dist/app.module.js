@@ -49,6 +49,7 @@ const company_entity_1 = require("./company.entity");
 const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
 const company_module_1 = require("./company/company.module");
+const metaads_module_1 = require("./metaads/metaads.module");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 let AppModule = class AppModule {
@@ -59,11 +60,11 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
-                host: 'gondola.proxy.rlwy.net',
-                port: 33485,
+                host: 'localhost',
+                port: 3306,
                 username: 'root',
-                password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
-                database: 'railway',
+                password: 'root',
+                database: 'db',
                 entities: [user_entity_1.User, company_entity_1.Company],
                 synchronize: true,
                 logging: true,
@@ -72,6 +73,7 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             company_module_1.CompanyModule,
+            metaads_module_1.MetaadsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

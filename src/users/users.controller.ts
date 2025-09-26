@@ -12,7 +12,7 @@ export class UsersController {
     ) {}
 
     @Post('register')
-    async register(@Body() body: { username: string; password: string; email: string; companyId: number }) {
+    async register(@Body() body: { username: string; password: string; email: string; companyId: number, accessToken: string }) {
 
         // Validar que la empresa existe
         const company = await this.companyService.findOne(body.companyId);
@@ -23,7 +23,7 @@ export class UsersController {
         const existingUser = await this.usersService.findUserByUsername(body.username);
         if (existingUser) return {msg: 'User already exists' };
 
-        await this.usersService.createUser(body.username, body.password, body.email, body.companyId);
+        await this.usersService.createUser(body.username, body.password, body.email, body.companyId, body.accessToken);
         return { message: 'User registered successfully' };
     }
 

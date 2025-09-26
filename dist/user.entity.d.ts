@@ -6,4 +6,5 @@ export declare class User {
     company: Company;
     password: string;
     email: string;
+    accessToken: string;
 }

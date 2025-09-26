@@ -32,7 +32,7 @@ let UsersController = class UsersController {
         const existingUser = await this.usersService.findUserByUsername(body.username);
         if (existingUser)
             return { msg: 'User already exists' };
-        await this.usersService.createUser(body.username, body.password, body.email, body.companyId);
+        await this.usersService.createUser(body.username, body.password, body.email, body.companyId, body.accessToken);
         return { message: 'User registered successfully' };
     }
     async getUser(req) {
