@@ -19,19 +19,25 @@ dotenv.config();
       type: 'mysql',
 
 
-    /* 
+
+      //railway: {
+    
     host: 'gondola.proxy.rlwy.net',
       port: 33485,
       username:  'root',
       password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
       database:  'railway',
-*/
+
+
+//local
+
+/*
       host: 'localhost',
       port: 3306,
       username:  'root',
       password: 'root',
       database:  'db',
-
+*/
 
       entities: [User, Company],
       synchronize: true, // Solo en dev,
