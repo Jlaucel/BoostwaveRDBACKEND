@@ -6,6 +6,9 @@ export class Company {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({nullable: true, unique: true})
+  rnc: string;
+
   @Column({ unique: true })
   name: string;
 
@@ -15,6 +18,9 @@ export class Company {
   @Column({ nullable: true })
   phone: string;
 
-  @OneToMany(() => User, (user) => user.company)
+  @Column({ nullable: true })
+  logoUrl: string; 
+
+   @OneToMany(() => User, (user) => user.company)
   users: User[];
 }

@@ -7,6 +7,7 @@ import { Company } from './company.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CompanyModule } from './company/company.module';
+import { MetaadsModule } from './metaads/metaads.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,19 +16,40 @@ dotenv.config();
   imports: [
 
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
+      type: 'mysql',
+
+
+
+      //railway: {
+    
+    host: 'gondola.proxy.rlwy.net',
+      port: 33485,
+      username:  'root',
+      password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
+      database:  'railway',
+
+
+//local
+
+/*
+      host: 'localhost',
       port: 3306,
-      username: process.env.DB_USERNAME || 'root',
-      password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_DATABASE || 'DB',
+      username:  'root',
+      password: 'root',
+      database:  'db',
+*/
+
       entities: [User, Company],
-      synchronize: false, // Solo en dev
+      synchronize: true, // Solo en dev,
+      logging: true, // Habilita el registro de consultas y errores,
+      
+      
     }),
     TypeOrmModule.forFeature([User, Company]),
     UsersModule,
     AuthModule,
     CompanyModule,
+    MetaadsModule,
 
 
 
