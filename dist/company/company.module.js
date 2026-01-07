@@ -20,7 +20,7 @@ exports.CompanyModule = CompanyModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([company_entity_1.Company])],
         providers: [company_service_1.CompanyService],
         controllers: [company_controller_1.CompanyController],
-        exports: [company_service_1.CompanyService],
+        exports: [company_service_1.CompanyService, typeorm_1.TypeOrmModule],
     })
 ], CompanyModule);
 //# sourceMappingURL=company.module.js.map

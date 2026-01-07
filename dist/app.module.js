@@ -60,11 +60,11 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
-                host: 'localhost',
-                port: 3306,
+                host: 'gondola.proxy.rlwy.net',
+                port: 33485,
                 username: 'root',
-                password: 'root',
-                database: 'db',
+                password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
+                database: 'railway',
                 entities: [user_entity_1.User, company_entity_1.Company],
                 synchronize: true,
                 logging: true,

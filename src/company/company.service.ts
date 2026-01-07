@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Company } from '../company.entity';
@@ -18,8 +18,13 @@ export class CompanyService {
 		return this.companyRepository.find();
 	}
 
-	findOne(id: number) {
-		return this.companyRepository.findOne({ where: { id } });
+	async findOne(id: number) {
+
+		const company = await this.companyRepository.findOne({ where: { id } });
+		if (!company) {
+			throw new NotFoundException(`Company with ID ${id} not found`);
+		}
+		return company;
 	}
 
 	update(id: number, data: Partial<Company>) {

@@ -5,7 +5,7 @@ export declare class CompanyService {
     constructor(companyRepository: Repository<Company>);
     create(data: Partial<Company>): Promise<Company>;
     findAll(): Promise<Company[]>;
-    findOne(id: number): Promise<Company | null>;
+    findOne(id: number): Promise<Company>;
     update(id: number, data: Partial<Company>): Promise<import("typeorm").UpdateResult>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;
 }

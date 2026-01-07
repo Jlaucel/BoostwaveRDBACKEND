@@ -10,6 +10,10 @@ export declare class UsersController {
         email: string;
         companyId: number;
         accessToken: string;
+        firstName: string;
+        lastName: string;
+        phone: string;
+        profilePictureUrl: string;
     }): Promise<{
         msg: string;
         message?: undefined;
@@ -19,11 +23,15 @@ export declare class UsersController {
     }>;
     getUser(req: any): Promise<{
         id: number;
-        companyId: number;
         username: string;
-        company: import("../company.entity").Company;
+        firstName: string;
+        companyId: number;
+        lastName: string;
+        phone: string;
         email: string;
         accessToken: string;
+        profilePictureUrl: string;
+        company: import("../company.entity").Company;
     } | {
         msg: string;
     }>;

@@ -51,14 +51,31 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("../user.entity");
 const bcrypt = __importStar(require("bcrypt"));
+const company_entity_1 = require("../company.entity");
 let UsersService = class UsersService {
     usersRepository;
-    constructor(usersRepository) {
+    companyRepository;
+    constructor(usersRepository, companyRepository) {
         this.usersRepository = usersRepository;
+        this.companyRepository = companyRepository;
     }
-    async createUser(username, password, email, companyId, accessToken) {
+    async createUser(username, firstName, lastName, phone, email, password, profilePictureUrl, companyId, accessToken) {
+        const company = await this.companyRepository.findOne({ where: { id: Number(companyId) } });
+        if (!company) {
+            throw new common_1.NotFoundException(`Company with ID ${companyId} not found`);
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = this.usersRepository.create({ username, password: hashedPassword, email, companyId, accessToken });
+        const user = this.usersRepository.create({
+            username,
+            firstName,
+            lastName,
+            phone,
+            password: hashedPassword,
+            email,
+            profilePictureUrl,
+            companyId: Number(companyId),
+            accessToken
+        });
         return this.usersRepository.save(user);
     }
     async findUserByUsername(username) {
@@ -70,6 +87,8 @@ exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(company_entity_1.Company)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

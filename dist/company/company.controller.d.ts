@@ -4,7 +4,7 @@ export declare class CompanyController {
     constructor(companyService: CompanyService);
     create(body: any): Promise<import("../company.entity").Company>;
     findAll(): Promise<import("../company.entity").Company[]>;
-    findOne(id: string): Promise<import("../company.entity").Company | null>;
+    findOne(id: string): Promise<import("../company.entity").Company>;
     update(id: string, body: any): Promise<import("typeorm").UpdateResult>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

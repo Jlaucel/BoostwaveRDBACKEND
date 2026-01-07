@@ -29,8 +29,12 @@ let CompanyService = class CompanyService {
     findAll() {
         return this.companyRepository.find();
     }
-    findOne(id) {
-        return this.companyRepository.findOne({ where: { id } });
+    async findOne(id) {
+        const company = await this.companyRepository.findOne({ where: { id } });
+        if (!company) {
+            throw new common_1.NotFoundException(`Company with ID ${id} not found`);
+        }
+        return company;
     }
     update(id, data) {
         return this.companyRepository.update(id, data);

@@ -14,9 +14,11 @@ const typeorm_1 = require("typeorm");
 const user_entity_1 = require("./user.entity");
 let Company = class Company {
     id;
+    rnc;
     name;
     address;
     phone;
+    logoUrl;
     users;
 };
 exports.Company = Company;
@@ -24,6 +26,10 @@ __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Company.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, unique: true }),
+    __metadata("design:type", String)
+], Company.prototype, "rnc", void 0);
 __decorate([
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
@@ -36,6 +42,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Company.prototype, "phone", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "logoUrl", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => user_entity_1.User, (user) => user.company),
     __metadata("design:type", Array)

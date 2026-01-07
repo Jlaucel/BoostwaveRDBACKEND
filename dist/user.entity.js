@@ -14,12 +14,16 @@ const typeorm_1 = require("typeorm");
 const company_entity_1 = require("./company.entity");
 let User = class User {
     id;
-    companyId;
     username;
-    company;
-    password;
+    firstName;
+    companyId;
+    lastName;
+    phone;
     email;
+    password;
     accessToken;
+    profilePictureUrl;
+    company;
 };
 exports.User = User;
 __decorate([
@@ -27,30 +31,46 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], User.prototype, "companyId", void 0);
-__decorate([
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => company_entity_1.Company, (company) => company.users),
-    (0, typeorm_1.JoinColumn)({ name: 'companyId' }),
-    __metadata("design:type", company_entity_1.Company)
-], User.prototype, "company", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "firstName", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], User.prototype, "companyId", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "password", void 0);
+], User.prototype, "lastName", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "phone", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "accessToken", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "profilePictureUrl", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => company_entity_1.Company, (company) => company.users),
+    (0, typeorm_1.JoinColumn)({ name: 'companyId' }),
+    __metadata("design:type", company_entity_1.Company)
+], User.prototype, "company", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);
