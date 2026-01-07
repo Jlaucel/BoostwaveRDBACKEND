@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity';
-import { Company } from './company.entity';
+import { User } from './users/user.entity';
+import { Company } from './company/company.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CompanyModule } from './company/company.module';
@@ -22,7 +22,7 @@ dotenv.config();
 
       //railway: {
     
-    host: 'gondola.proxy.rlwy.net',
+      host: 'gondola.proxy.rlwy.net',
       port: 33485,
       username:  'root',
       password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
