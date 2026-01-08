@@ -31,13 +31,6 @@ dotenv.config();
 
 //local
 
-/*
-      host: 'localhost',
-      port: 3306,
-      username:  'root',
-      password: 'root',
-      database:  'db',
-*/
 
       entities: [User, Company],
       synchronize: true, // Solo en dev,
