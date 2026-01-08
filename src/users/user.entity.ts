@@ -1,6 +1,6 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Company } from './company.entity';
+import { Company } from '../company/company.entity';
 
 
 @Entity()

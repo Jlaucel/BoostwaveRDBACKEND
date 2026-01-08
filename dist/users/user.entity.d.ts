@@ -1,4 +1,4 @@
-import { Company } from './company.entity';
+import { Company } from '../company/company.entity';
 export declare class User {
     id: number;
     username: string;
