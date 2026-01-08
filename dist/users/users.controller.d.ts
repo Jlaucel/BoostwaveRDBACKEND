@@ -31,7 +31,7 @@ export declare class UsersController {
         email: string;
         accessToken: string;
         profilePictureUrl: string;
-        company: import("../company.entity").Company;
+        company: import("../company/company.entity").Company;
     } | {
         msg: string;
     }>;

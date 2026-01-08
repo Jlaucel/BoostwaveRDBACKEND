@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import { User } from '../user.entity';
-import { Company } from '../company.entity';
+import { User } from './user.entity';
+import { Company } from '../company/company.entity';
 export declare class UsersService {
     private usersRepository;
     private companyRepository;

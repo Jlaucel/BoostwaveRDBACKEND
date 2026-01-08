@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Company } from '../company.entity';
+import { Company } from './company.entity';
 export declare class CompanyService {
     private companyRepository;
     constructor(companyRepository: Repository<Company>);
