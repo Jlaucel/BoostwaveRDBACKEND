@@ -1,9 +1,13 @@
-name: Auto Pull Request
+name: Auto PR dev → main
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - dev
+
+permissions:
+  contents: write
+  pull-requests: write
 
 permissions:
   contents: write
@@ -13,7 +17,11 @@ jobs:
   create-pr:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
+      - name: Checkout repository
+=======
       - name: Checkout repo
+>>>>>>> 6282fef84c4f72ee4694897d75278e70af0373a1
         uses: actions/checkout@v4
 
       - name: Create Pull Request
@@ -22,8 +30,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
           base: main
-          branch: ${{ github.ref_name }}
-          title: "Auto PR: ${{ github.ref_name }}"
+          branch: dev
+          title: "Auto PR: dev → main"
           body: |
-            Pull request creado automáticamente.
+            Pull request creado automáticamente desde dev hacia main.
           draft: false
