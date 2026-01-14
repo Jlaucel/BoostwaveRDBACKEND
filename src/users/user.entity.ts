@@ -1,12 +1,9 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity } from '../common/entities/base.entity';
 import { Company } from '../company/company.entity';
 
-
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class User extends BaseEntity {
 
   @Column({ unique: true })
   username: string;

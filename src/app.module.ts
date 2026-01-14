@@ -17,26 +17,17 @@ dotenv.config();
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-
-
-
-      //railway: {
-    
-      host: 'gondola.proxy.rlwy.net',
-      port: 33485,
-      username:  'root',
-      password: 'tnjOQcsfIhDPxMOaSeXSuBKWXMWxylVE',
-      database:  'railway',
-
-
-//local
-
-
+      host: process.env.MYSQLHOST || process.env.RAILWAY_TCP_PROXY_DOMAIN || 'localhost',
+      port: parseInt(process.env.MYSQLPORT || process.env.RAILWAY_TCP_PROXY_PORT || '3306', 10),
+      username: process.env.MYSQLUSER || process.env.MYSQL_ROOT_USER || 'root',
+      password: process.env.MYSQL_ROOT_PASSWORD || process.env.MYSQLPASSWORD || '',
+      database: process.env.MYSQLDATABASE || process.env.MYSQL_DATABASE || 'railway',
       entities: [User, Company],
-      synchronize: true, // Solo en dev,
-      logging: true, // Habilita el registro de consultas y errores,
-      
-      
+      synchronize: process.env.NODE_ENV !== 'production', // Solo en dev
+      logging: process.env.NODE_ENV !== 'production', // Habilita el registro de consultas y errores en dev
+      extra: {
+        connectionLimit: 10,
+      },
     }),
     TypeOrmModule.forFeature([User, Company]),
     UsersModule,

@@ -1,37 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseService } from '../common/services/base.service';
 import { Company } from './company.entity';
 
 @Injectable()
-export class CompanyService {
+export class CompanyService extends BaseService<Company> {
 	constructor(
 		@InjectRepository(Company)
-		private companyRepository: Repository<Company>,
-	) {}
-
-	create(data: Partial<Company>) {
-		const company = this.companyRepository.create(data);
-		return this.companyRepository.save(company);
-	}
-	findAll() {
-		return this.companyRepository.find();
+		protected readonly repository: Repository<Company>,
+	) {
+		super(repository);
 	}
 
-	async findOne(id: number) {
-
-		const company = await this.companyRepository.findOne({ where: { id } });
-		if (!company) {
-			throw new NotFoundException(`Company with ID ${id} not found`);
-		}
-		return company;
+	getEntity(): new () => Company {
+		return Company;
 	}
 
-	update(id: number, data: Partial<Company>) {
-		return this.companyRepository.update(id, data);
-	}
-
-	remove(id: number) {
-		return this.companyRepository.delete(id);
+	/**
+	 * Override search to include name and rnc fields
+	 */
+	protected applySearch(queryBuilder: any, search: string): void {
+		queryBuilder.andWhere(
+			'(entity.name LIKE :search OR entity.rnc LIKE :search OR entity.id = :searchId)',
+			{
+				search: `%${search}%`,
+				searchId: isNaN(Number(search)) ? -1 : Number(search),
+			},
+		);
 	}
 }
