@@ -8,7 +8,7 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "kill-port": "powershell -ExecutionPolicy Bypass -File ./scripts/kill-port.ps1",
-    "start": "npm run kill-port && nest start",
+    "start": "node scripts/start.js",
     "start:dev": "npm run kill-port && nest start --watch",
     "start:debug": "npm run kill-port && nest start --debug --watch",
     "build": "nest build",
