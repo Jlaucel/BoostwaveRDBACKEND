@@ -1,9 +1,9 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                import { Controller, Post, Body, Get, UseGuards, Request, Put, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Request, Put, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { BaseController } from '../common/controllers/base.controller';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Public } from '../auth/public.decorator';
 import { CompanyService } from '../company/company.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -50,7 +50,6 @@ export class UsersController extends BaseController<User> {
     }
 
     @Get('getUser')
-    @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @ApiOperation({ summary: 'Get current user from JWT token' })
     async getUser(@Request() req) {
@@ -97,6 +96,7 @@ export class UsersController extends BaseController<User> {
         return this.excludePassword(user) as User;
     }
 
+    @Public()
     @Post('register')
     @ApiOperation({ summary: 'Register a new user (legacy endpoint)' })
     @ApiBody({ type: CreateUserDto })

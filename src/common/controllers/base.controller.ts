@@ -18,6 +18,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import type { DeepPartial } from 'typeorm';
 import { BaseService } from '../services/base.service';
@@ -31,6 +32,7 @@ export abstract class BaseController<T extends BaseEntity> {
   abstract getEntityName(): string;
 
   @Get()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Get all entities' })
   @ApiResponse({
     status: 200,
@@ -46,6 +48,7 @@ export abstract class BaseController<T extends BaseEntity> {
   }
 
   @Get(':id')
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Get an entity by ID' })
   @ApiParam({ name: 'id', type: Number })
   @ApiResponse({
@@ -58,6 +61,7 @@ export abstract class BaseController<T extends BaseEntity> {
   }
 
   @Post()
+  @ApiBearerAuth('JWT-auth')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new entity' })
   @ApiBody({ description: 'Data to create entity' })
@@ -71,6 +75,7 @@ export abstract class BaseController<T extends BaseEntity> {
   }
 
   @Put(':id')
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update an entity' })
   @ApiParam({ name: 'id', type: Number })
   @ApiBody({ description: 'Data to update entity' })
@@ -87,6 +92,7 @@ export abstract class BaseController<T extends BaseEntity> {
   }
 
   @Delete(':id')
+  @ApiBearerAuth('JWT-auth')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Soft delete an entity' })
   @ApiParam({ name: 'id', type: Number })
@@ -100,6 +106,7 @@ export abstract class BaseController<T extends BaseEntity> {
   }
 
   @Post(':id/restore')
+  @ApiBearerAuth('JWT-auth')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Restore a soft-deleted entity' })
   @ApiParam({ name: 'id', type: Number })
