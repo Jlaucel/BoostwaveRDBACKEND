@@ -12,16 +12,44 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+// Configuración de base de datos con logging
+const dbHost = process.env.MYSQLHOST || process.env.RAILWAY_TCP_PROXY_DOMAIN || process.env.MYSQL_HOST;
+const dbPort = parseInt(
+  process.env.MYSQLPORT || 
+  process.env.RAILWAY_TCP_PROXY_PORT || 
+  process.env.MYSQL_PORT || 
+  '3306', 
+  10
+);
+const dbUsername = process.env.MYSQLUSER || process.env.MYSQL_ROOT_USER || process.env.MYSQL_USER || 'root';
+const dbPassword = process.env.MYSQL_ROOT_PASSWORD || process.env.MYSQLPASSWORD || process.env.MYSQL_PASSWORD || '';
+const dbDatabase = process.env.MYSQLDATABASE || process.env.MYSQL_DATABASE || 'railway';
+
+// Log de configuración para diagnóstico
+console.log('📊 Database Configuration:', {
+  host: dbHost || 'NOT SET - will use localhost (ERROR!)',
+  port: dbPort,
+  username: dbUsername,
+  database: dbDatabase,
+  passwordSet: !!dbPassword,
+  nodeEnv: process.env.NODE_ENV,
+});
+
+if (!dbHost && process.env.NODE_ENV === 'production') {
+  console.error('❌ ERROR: MYSQLHOST not set! Railway should provide this automatically if MySQL service is connected.');
+  console.log('Available env vars:', Object.keys(process.env).filter(key => key.includes('MYSQL') || key.includes('RAILWAY')));
+}
+
 @Module({
   imports: [
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQLHOST || process.env.RAILWAY_TCP_PROXY_DOMAIN || 'localhost',
-      port: parseInt(process.env.MYSQLPORT || process.env.RAILWAY_TCP_PROXY_PORT || '3306', 10),
-      username: process.env.MYSQLUSER || process.env.MYSQL_ROOT_USER || 'root',
-      password: process.env.MYSQL_ROOT_PASSWORD || process.env.MYSQLPASSWORD || '',
-      database: process.env.MYSQLDATABASE || process.env.MYSQL_DATABASE || 'railway',
+      host: dbHost || 'localhost',
+      port: dbPort,
+      username: dbUsername,
+      password: dbPassword,
+      database: dbDatabase,
       entities: [User, Company],
       synchronize: process.env.NODE_ENV !== 'production', // Solo en dev
       logging: process.env.NODE_ENV !== 'production', // Habilita el registro de consultas y errores en dev

@@ -7,6 +7,13 @@ const isWindows = process.platform === 'win32';
 const isProduction = process.env.NODE_ENV === 'production';
 const distMainExists = fs.existsSync(path.join(__dirname, '..', 'dist', 'main.js'));
 
+console.log('Environment:', {
+  platform: process.platform,
+  nodeEnv: process.env.NODE_ENV || 'not set',
+  port: process.env.PORT || 'not set (will use 8080)',
+  distExists: distMainExists
+});
+
 // Solo ejecutar kill-port en Windows y desarrollo local
 if (isWindows && !isProduction) {
   try {
@@ -18,9 +25,19 @@ if (isWindows && !isProduction) {
 
 // Si existe dist/main.js (después del build), usar producción
 if (distMainExists) {
-  console.log('Starting in production mode...');
-  execSync('node dist/main', { stdio: 'inherit' });
+  console.log('✅ Starting in production mode (using dist/main.js)...');
+  try {
+    execSync('node dist/main', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('❌ Error starting application:', error.message);
+    process.exit(1);
+  }
 } else {
-  console.log('Starting in development mode...');
-  execSync('nest start', { stdio: 'inherit' });
+  console.log('⚠️ Starting in development mode (dist/main.js not found)...');
+  try {
+    execSync('nest start', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('❌ Error starting application:', error.message);
+    process.exit(1);
+  }
 }

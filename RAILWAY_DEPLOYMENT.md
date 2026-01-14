@@ -19,7 +19,14 @@ Esta guía explica cómo desplegar el backend de BoostWave CRM en Railway.
 
 ### 2. Configurar Variables de Entorno
 
+**⚠️ IMPORTANTE**: Antes de desplegar, debes configurar las variables de entorno en Railway.
+
 Railway detectará automáticamente las variables de entorno necesarias si tienes un servicio MySQL conectado. Si no, configura manualmente:
+
+**Para configurar variables de entorno en Railway:**
+1. Ve a tu servicio en Railway
+2. Haz clic en la pestaña "Variables"
+3. Agrega las variables necesarias (ver abajo)
 
 #### Variables de Base de Datos (si MySQL está en Railway):
 - `MYSQLHOST` - Automático si MySQL está en Railway
@@ -35,8 +42,10 @@ Configura manualmente todas las variables anteriores con los valores de tu base 
 
 #### Variables de Aplicación:
 - `PORT` - **Railway lo configura automáticamente**, no necesitas establecerlo manualmente
-- `NODE_ENV` - Establece como `production`
-- `JWT_SECRET` - **OBLIGATORIO**: Genera un secreto seguro (ej: `openssl rand -base64 32`)
+- `NODE_ENV` - **OBLIGATORIO**: Establece como `production`
+- `JWT_SECRET` - **OBLIGATORIO**: Genera un secreto seguro. Sin esto, la aplicación fallará al iniciar.
+  - Puedes generar uno con: `openssl rand -base64 32` o usar cualquier string seguro
+  - Ejemplo: `my-super-secret-jwt-key-123456789`
 - `JWT_EXPIRES_IN` - Opcional (default: `1h`)
 
 ### 3. Configurar el Build y Start
