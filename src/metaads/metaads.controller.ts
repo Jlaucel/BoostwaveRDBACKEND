@@ -1,5 +1,5 @@
-import { Controller, Get, Query, Request, BadRequestException, NotFoundException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Query, Request, BadRequestException, NotFoundException, Param } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { MetaadsService } from './metaads.service';
 import { UsersService } from '../users/users.service';
 
