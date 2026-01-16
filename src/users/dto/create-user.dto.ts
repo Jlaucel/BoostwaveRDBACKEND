@@ -46,4 +46,9 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   accessToken?: string;
+
+  @ApiPropertyOptional({ description: 'Meta Ads Account ID (e.g., act_1245616320222664)' })
+  @IsOptional()
+  @IsString()
+  metaAdAccountId?: string;
 }

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoostWave CRM - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .user-info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .user-info.active {
+            display: block;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .company-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .company-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .company-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .company-rnc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .users-list {
+            margin-top: 15px;
+        }
+
+        .user-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-details {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .meta-ads-badge {
+            display: inline-block;
+            background: #1877f2;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .error {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #00c851;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .api-url-input {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .logout-btn {
+            background: #ff4444;
+            margin-left: 10px;
+        }
+
+        .logout-btn:hover {
+            background: #cc0000;
+        }
+
+        .refresh-btn {
+            background: #00c851;
+            margin-left: 10px;
+        }
+
+        .refresh-btn:hover {
+            background: #00a043;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 BoostWave CRM Dashboard</h1>
+            <p>Gestión de Clientes y Campañas Publicitarias</p>
+        </div>
+
+        <div class="login-section" id="loginSection">
+            <h2>Iniciar Sesión</h2>
+            <div class="form-group api-url-input">
+                <label>API URL (Base)</label>
+                <input type="text" id="apiUrl" value="http://localhost:8080" placeholder="http://localhost:8080">
+            </div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" id="username" value="Cabinf" placeholder="Usuario">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" value="123456" placeholder="Contraseña">
+                </div>
+                <button onclick="login()">Iniciar Sesión</button>
+            </div>
+            <div id="loginMessage"></div>
+            <div class="user-info" id="userInfo"></div>
+        </div>
+
+        <div class="content-section" id="contentSection">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: white;">Dashboard</h2>
+                <div>
+                    <button onclick="loadData()" class="refresh-btn">🔄 Actualizar</button>
+                    <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+                </div>
+            </div>
+
+            <div id="errorMessage"></div>
+
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <div class="companies-grid" id="companiesGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        let apiUrl = 'http://localhost:8080';
+        let token = null;
+        let currentUser = null;
+
+        // Configurar API URL
+        document.getElementById('apiUrl').addEventListener('change', (e) => {
+            apiUrl = e.target.value.replace(/\/$/, '');
+        });
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const apiUrlInput = document.getElementById('apiUrl').value;
+            apiUrl = apiUrlInput.replace(/\/$/, '');
+
+            const messageDiv = document.getElementById('loginMessage');
+            messageDiv.innerHTML = '<div class="loading">Iniciando sesión...</div>';
+
+            try {
+                const response = await fetch(`${apiUrl}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.access_token) {
+                    token = data.access_token;
+                    
+                    // Obtener información del usuario
+                    const userResponse = await fetch(`${apiUrl}/users/getUser`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    });
+
+                    if (userResponse.ok) {
+                        currentUser = await userResponse.json();
+                        showUserInfo();
+                        document.getElementById('loginSection').style.display = 'none';
+                        document.getElementById('contentSection').classList.add('active');
+                        await loadData();
+                    } else {
+                        messageDiv.innerHTML = '<div class="error">Error al obtener información del usuario</div>';
+                    }
+                } else {
+                    messageDiv.innerHTML = `<div class="error">${data.message || 'Error al iniciar sesión'}</div>`;
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `<div class="error">Error de conexión: ${error.message}</div>`;
+            }
+        }
+
+        function showUserInfo() {
+            const userInfoDiv = document.getElementById('userInfo');
+            if (currentUser) {
+                userInfoDiv.innerHTML = `
+                    <strong>Usuario:</strong> ${currentUser.username} | 
+                    <strong>Email:</strong> ${currentUser.email} | 
+                    <strong>Nombre:</strong> ${currentUser.firstName} ${currentUser.lastName}
+                    ${currentUser.metaAdAccountId ? ` | <span class="meta-ads-badge">Meta Ads: ${currentUser.metaAdAccountId}</span>` : ''}
+                `;
+                userInfoDiv.classList.add('active');
+            }
+        }
+
+        async function loadData() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.innerHTML = '';
+
+            try {
+                // Cargar companies y users en paralelo
+                const [companiesRes, usersRes] = await Promise.all([
+                    fetch(`${apiUrl}/company`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }),
+                    fetch(`${apiUrl}/users`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }),
+                ]);
+
+                if (!companiesRes.ok || !usersRes.ok) {
+                    throw new Error('Error al cargar datos');
+                }
+
+                const companies = await companiesRes.json();
+                const users = await usersRes.json();
+
+                // Procesar datos
+                const companiesData = Array.isArray(companies) ? companies : companies.data || [];
+                const usersData = Array.isArray(users) ? users : users.data || [];
+
+                // Agrupar usuarios por company
+                const usersByCompany = {};
+                usersData.forEach(user => {
+                    if (!usersByCompany[user.companyId]) {
+                        usersByCompany[user.companyId] = [];
+                    }
+                    usersByCompany[user.companyId].push(user);
+                });
+
+                // Mostrar estadísticas
+                displayStats(companiesData.length, usersData.length);
+
+                // Mostrar companies
+                displayCompanies(companiesData, usersByCompany);
+
+            } catch (error) {
+                errorDiv.innerHTML = `<div class="error">Error al cargar datos: ${error.message}</div>`;
+            }
+        }
+
+        function displayStats(companiesCount, usersCount) {
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <h3>Total Empresas</h3>
+                    <div class="value">${companiesCount}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Usuarios</h3>
+                    <div class="value">${usersCount}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Usuarios con Meta Ads</h3>
+                    <div class="value">${usersData.filter(u => u.metaAdAccountId).length}</div>
+                </div>
+            `;
+        }
+
+        function displayCompanies(companies, usersByCompany) {
+            const companiesGrid = document.getElementById('companiesGrid');
+            
+            if (companies.length === 0) {
+                companiesGrid.innerHTML = '<div class="error">No hay empresas registradas</div>';
+                return;
+            }
+
+            companiesGrid.innerHTML = companies.map(company => {
+                const companyUsers = usersByCompany[company.id] || [];
+                return `
+                    <div class="company-card">
+                        <div class="company-header">
+                            <div>
+                                <div class="company-name">${company.name}</div>
+                                ${company.rnc ? `<div class="company-rnc">RNC: ${company.rnc}</div>` : ''}
+                            </div>
+                        </div>
+                        ${company.address ? `<div style="margin-bottom: 10px; color: #666; font-size: 14px;">📍 ${company.address}</div>` : ''}
+                        ${company.phone ? `<div style="margin-bottom: 10px; color: #666; font-size: 14px;">📞 ${company.phone}</div>` : ''}
+                        <div class="users-list">
+                            <strong style="display: block; margin-bottom: 10px;">Usuarios (${companyUsers.length}):</strong>
+                            ${companyUsers.length > 0 
+                                ? companyUsers.map(user => `
+                                    <div class="user-item">
+                                        <div class="user-name">${user.firstName} ${user.lastName}</div>
+                                        <div class="user-details">
+                                            <span>👤 ${user.username}</span>
+                                            <span>📧 ${user.email}</span>
+                                            ${user.phone ? `<span>📱 ${user.phone}</span>` : ''}
+                                            ${user.metaAdAccountId ? `<span class="meta-ads-badge">Meta Ads: ${user.metaAdAccountId}</span>` : ''}
+                                        </div>
+                                    </div>
+                                `).join('')
+                                : '<div style="color: #999; font-style: italic;">No hay usuarios en esta empresa</div>'
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function logout() {
+            token = null;
+            currentUser = null;
+            localStorage.removeItem('crm_token');
+            localStorage.removeItem('crm_api_url');
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('contentSection').classList.remove('active');
+            document.getElementById('userInfo').classList.remove('active');
+            document.getElementById('loginMessage').innerHTML = '';
+            document.getElementById('errorMessage').innerHTML = '';
+        }
+
+        // Cargar datos automáticamente si hay token guardado
+        window.addEventListener('load', () => {
+            const savedToken = localStorage.getItem('crm_token');
+            const savedApiUrl = localStorage.getItem('crm_api_url');
+            if (savedToken && savedApiUrl) {
+                token = savedToken;
+                apiUrl = savedApiUrl;
+                document.getElementById('apiUrl').value = savedApiUrl;
+                // Intentar obtener usuario
+                fetch(`${apiUrl}/users/getUser`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                })
+                .then(res => res.json())
+                .then(user => {
+                    if (user && user.id && !user.msg) {
+                        currentUser = user;
+                        showUserInfo();
+                        document.getElementById('loginSection').style.display = 'none';
+                        document.getElementById('contentSection').classList.add('active');
+                        loadData();
+                    } else {
+                        localStorage.removeItem('crm_token');
+                        localStorage.removeItem('crm_api_url');
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('crm_token');
+                    localStorage.removeItem('crm_api_url');
+                });
+            }
+        });
+
+        // Guardar token al hacer login
+        const originalLogin = login;
+        login = async function() {
+            await originalLogin();
+            if (token) {
+                localStorage.setItem('crm_token', token);
+                localStorage.setItem('crm_api_url', apiUrl);
+            }
+        };
+    </script>
+</body>
+</html>

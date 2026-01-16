@@ -31,6 +31,9 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   profilePictureUrl: string; // URL de la foto de perfil del usuario
 
+  @Column({ nullable: true })
+  metaAdAccountId: string; // ID de la cuenta publicitaria de Meta Ads (ej: act_1245616320222664)
+
   @ManyToOne(() => Company, (company) => company.users)
   @JoinColumn({ name: 'companyId' })
   company: Company;
