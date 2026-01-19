@@ -405,6 +405,10 @@
 
                 // Procesar datos
                 const companiesData = Array.isArray(companies) ? companies : companies.data || [];
+                // Asegurarse de inicializar usersData si no está definido
+                if (typeof usersData === 'undefined') {
+                    usersData = [];
+                }
                 usersData = Array.isArray(users) ? users : users.data || []; // Actualizar variable global
 
                 // Agrupar usuarios por company
@@ -423,13 +427,19 @@
                 displayCompanies(companiesData, usersByCompany);
 
             } catch (error) {
-                errorDiv.innerHTML = `<div class="error">Error al cargar datos: ${error.message}</div>`;
+                console.error('Error en loadData:', error);
+                const errorMessage = error.message || 'Error desconocido';
+                errorDiv.innerHTML = `<div class="error">Error al cargar datos: ${errorMessage}</div>`;
             }
         }
 
         function displayStats(companiesCount, usersCount) {
             const statsGrid = document.getElementById('statsGrid');
-            const usersWithMetaAds = usersData ? usersData.filter(u => u.metaAdAccountId).length : 0;
+            // Asegurarse de que usersData esté definido
+            if (typeof usersData === 'undefined') {
+                usersData = [];
+            }
+            const usersWithMetaAds = Array.isArray(usersData) ? usersData.filter(u => u && u.metaAdAccountId).length : 0;
             statsGrid.innerHTML = `
                 <div class="stat-card">
                     <h3>Total Empresas</h3>

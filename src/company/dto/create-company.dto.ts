@@ -12,6 +12,11 @@ export class CreateCompanyDto {
   @IsString()
   name: string;
 
+  @ApiPropertyOptional({ description: 'Company name (additional field)' })
+  @IsOptional()
+  @IsString()
+  companyName?: string;
+
   @ApiPropertyOptional({ description: 'Company address' })
   @IsOptional()
   @IsString()

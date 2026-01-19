@@ -10,6 +10,9 @@ export class Company extends BaseEntity {
   @Column({ unique: true })
   name: string;
 
+  @Column({ nullable: true, name: 'company_name' })
+  companyName: string;
+
   @Column({ nullable: true })
   address: string;
 
