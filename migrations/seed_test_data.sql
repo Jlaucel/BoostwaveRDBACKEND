@@ -11,7 +11,7 @@ ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 -- Obtener IDs de las empresas (asumiendo que se insertaron correctamente)
 SET @boostwave_id = (SELECT id FROM `company` WHERE `name` = 'BoostWave RD' LIMIT 1);
 SET @claudio_id = (SELECT id FROM `company` WHERE `name` = 'Claudio Mayi Real State' LIMIT 1);
-SET @adanía_id = (SELECT id FROM `company` WHERE `name` = 'BF-Adania' LIMIT 1);
+SET @adania_id = (SELECT id FROM `company` WHERE `name` = 'BF-Adania' LIMIT 1);
 
 -- Insertar usuarios de prueba
 -- Contraseña para todos: 123456
@@ -20,7 +20,7 @@ SET @adanía_id = (SELECT id FROM `company` WHERE `name` = 'BF-Adania' LIMIT 1);
 INSERT INTO `user` (`username`, `firstName`, `lastName`, `email`, `password`, `companyId`, `phone`, `metaAdAccountId`, `createdAt`, `updatedAt`) VALUES
 ('Cabinf', 'Cabin', 'F', 'cabinf@boostwave.com', '$2b$10$mEdu5cGpk7f4dunqk4N8P.2af8lsjONq.jb3VYxpHzAZuP5tHKCzW', @boostwave_id, '809-555-1001', 'act_1245616320222664', NOW(), NOW()),
 ('claudio.mayi', 'Claudio', 'Mayi', 'claudio@mayirealstate.com', '$2b$10$mEdu5cGpk7f4dunqk4N8P.2af8lsjONq.jb3VYxpHzAZuP5tHKCzW', @claudio_id, '591-555-2002', 'act_2017251745744934', NOW(), NOW()),
-('adanía.user', 'Adanía', 'Usuario', 'adanía@bf.com', '$2b$10$mEdu5cGpk7f4dunqk4N8P.2af8lsjONq.jb3VYxpHzAZuP5tHKCzW', @adanía_id, '809-555-3003', 'act_1389475789461966', NOW(), NOW()),
+('adania.user', 'Adania', 'Usuario', 'adania@bf.com', '$2b$10$mEdu5cGpk7f4dunqk4N8P.2af8lsjONq.jb3VYxpHzAZuP5tHKCzW', @adania_id, '809-555-3003', 'act_1389475789461966', NOW(), NOW()),
 ('boostwave.user2', 'Usuario', 'Dos', 'user2@boostwave.com', '$2b$10$mEdu5cGpk7f4dunqk4N8P.2af8lsjONq.jb3VYxpHzAZuP5tHKCzW', @boostwave_id, '809-555-1002', 'act_1922449428647116', NOW(), NOW())
 ON DUPLICATE KEY UPDATE `username` = VALUES(`username`);
 

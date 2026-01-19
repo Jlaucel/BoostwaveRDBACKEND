@@ -310,6 +310,7 @@
         let apiUrl = 'http://localhost:8080';
         let token = null;
         let currentUser = null;
+        let usersData = []; // Variable global para almacenar los usuarios
 
         // Configurar API URL
         document.getElementById('apiUrl').addEventListener('change', (e) => {
@@ -404,7 +405,7 @@
 
                 // Procesar datos
                 const companiesData = Array.isArray(companies) ? companies : companies.data || [];
-                const usersData = Array.isArray(users) ? users : users.data || [];
+                usersData = Array.isArray(users) ? users : users.data || []; // Actualizar variable global
 
                 // Agrupar usuarios por company
                 const usersByCompany = {};
@@ -428,6 +429,7 @@
 
         function displayStats(companiesCount, usersCount) {
             const statsGrid = document.getElementById('statsGrid');
+            const usersWithMetaAds = usersData ? usersData.filter(u => u.metaAdAccountId).length : 0;
             statsGrid.innerHTML = `
                 <div class="stat-card">
                     <h3>Total Empresas</h3>
@@ -439,7 +441,7 @@
                 </div>
                 <div class="stat-card">
                     <h3>Usuarios con Meta Ads</h3>
-                    <div class="value">${usersData.filter(u => u.metaAdAccountId).length}</div>
+                    <div class="value">${usersWithMetaAds}</div>
                 </div>
             `;
         }
