@@ -1,32 +1,36 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Body, Param, Put, Post, ParseIntPipe } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
+import { BaseController } from '../common/controllers/base.controller';
 import { CompanyService } from './company.service';
+import { Company } from './company.entity';
+import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 
+@ApiTags('Companies')
 @Controller('company')
-export class CompanyController {
-	constructor(private readonly companyService: CompanyService) {}
+export class CompanyController extends BaseController<Company> {
+	constructor(private readonly companyService: CompanyService) {
+		super(companyService);
+	}
+
+	getEntityName(): string {
+		return 'Company';
+	}
 
 	@Post()
-	create(@Body() body) {
-		return this.companyService.create(body);
-	}
-
-	@Get()
-	findAll() {
-		return this.companyService.findAll();
-	}
-
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.companyService.findOne(Number(id));
+	@ApiOperation({ summary: 'Create a new company' })
+	@ApiBody({ type: CreateCompanyDto })
+	async create(@Body() createDto: CreateCompanyDto): Promise<Company> {
+		return this.service.create(createDto);
 	}
 
 	@Put(':id')
-	update(@Param('id') id: string, @Body() body) {
-		return this.companyService.update(Number(id), body);
-	}
-
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.companyService.remove(Number(id));
+	@ApiOperation({ summary: 'Update a company' })
+	@ApiBody({ type: UpdateCompanyDto })
+	async update(
+		@Param('id', ParseIntPipe) id: number,
+		@Body() updateDto: UpdateCompanyDto,
+	): Promise<Company> {
+		return this.service.update(id, updateDto);
 	}
 }

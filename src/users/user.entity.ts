@@ -1,12 +1,9 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity } from '../common/entities/base.entity';
 import { Company } from '../company/company.entity';
 
-
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class User extends BaseEntity {
 
   @Column({ unique: true })
   username: string;
@@ -33,6 +30,9 @@ export class User {
 
   @Column({ nullable: true })
   profilePictureUrl: string; // URL de la foto de perfil del usuario
+
+  @Column({ nullable: true })
+  metaAdAccountId: string; // ID de la cuenta publicitaria de Meta Ads (ej: act_1245616320222664)
 
   @ManyToOne(() => Company, (company) => company.users)
   @JoinColumn({ name: 'companyId' })

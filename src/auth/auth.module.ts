@@ -13,8 +13,13 @@ import { PassportModule } from '@nestjs/passport';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'mi_secreto', // Cambiar en producción
-      signOptions: { expiresIn: '1h' },
+      secret: process.env.JWT_SECRET || (() => {
+        if (process.env.NODE_ENV === 'production') {
+          throw new Error('JWT_SECRET must be set in production');
+        }
+        return 'dev-secret-change-in-production';
+      })(),
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '1h' },
     }),
   ],
   providers: [AuthService, JwtStrategy],
